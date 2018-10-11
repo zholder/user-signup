@@ -12,6 +12,13 @@ def index():
 @app.route("/", methods=['POST'])
 def validate():
     username = request.form['username']
+    return redirect('/success?username={0}'.format(username))
+
+@app.route('/success')
+def success():
+    username = request.args.get('username')
     return render_template("success.html", username=username)
+
+
 
 app.run()
