@@ -26,20 +26,26 @@ def password_match(password, verify_password):
     if password == verify_password:
         return True
 
+def email_check(email):
+    if '@' and '.' in email:
+        return True
+
 @app.route("/", methods=['POST'])
 def validate():
     username = request.form['username']
     password = request.form['password']
     verify_password = request.form['verify_password']
+    email = request.form['email']
 
     username_error = ''
     password_error = ''
     verify_password_error = ''
+    email_error = ''
 
-    if is_blank(username):
-        username_error = 'Please enter a username'
+    if is_blank(username) or contains_space(username) or not validate_length(username):
+        username_error = 'Username invalid'
     
-    if is_blank(password) or contains_space(password):
+    if is_blank(password) or contains_space(password) or not validate_length(password):
         password_error = 'Password invalid'
 
     if is_blank(verify_password):
@@ -48,21 +54,19 @@ def validate():
     if verify_password != password:
         verify_password_error = 'Password mismatch'
 
-    # if not is_blank(password) and not contains_space(password) and not is_blank(verify_password):
-    #     if password_match(password, verify_password):
-    #         verify_password_error = 'Passwords do not match'
+    if not email_check(email):
+        email_error = 'Email invalid'
 
     if validate_length(username) and validate_length(password) and validate_length(verify_password) and verify_password == password:
         return redirect('/success?username={0}'.format(username))
 
     else:
-        return render_template("form.html", username=username, username_error=username_error, password_error=password_error, verify_password_error=verify_password_error)
+        return render_template("form.html", username=username, email=email, username_error=username_error, password_error=password_error, verify_password_error=verify_password_error, email_error=email_error)
 
 @app.route('/success')
 def success():
     username = request.args.get('username')
     return render_template("success.html", username=username)
-
 
 
 app.run()

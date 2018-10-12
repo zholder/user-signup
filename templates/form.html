@@ -34,7 +34,7 @@
             </td>
             <td>
                 <input name="verify_password" type="password" />
-                <span class="error">{{verify_password_error}}</span
+                <span class="error">{{verify_password_error}}</span>
             </td>
         </tr>
         <tr>
@@ -42,7 +42,8 @@
                 <label>Email (optional)</label>
             </td>
             <td>
-                <input name="email" type="text" />
+                <input name="email" type="text" value="{{email}}"/>
+                <span class="error">{{email_error}}</span>
             </td>
         </tr>
     </table>
