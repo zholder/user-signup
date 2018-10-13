@@ -27,7 +27,9 @@ def password_match(password, verify_password):
         return True
 
 def email_check(email):
-    if '@' and '.' in email:
+    if email == '':
+        return True
+    elif '@' in email and '.' in email:
         return True
 
 @app.route("/", methods=['POST'])
@@ -57,16 +59,16 @@ def validate():
     if not email_check(email):
         email_error = 'Email invalid'
 
-    if validate_length(username) and validate_length(password) and validate_length(verify_password) and verify_password == password:
+    if validate_length(username) and validate_length(password) and validate_length(verify_password) and verify_password == password and email_check(email):
         return redirect('/success?username={0}'.format(username))
 
     else:
-        return render_template("form.html", username=username, email=email, username_error=username_error, password_error=password_error, verify_password_error=verify_password_error, email_error=email_error)
+        return render_template("form.html", username=username, email=email, username_error=username_error, password_error=password_error, verify_password_error=verify_password_error, email_error=email_error, title='User Sign Up')
 
 @app.route('/success')
 def success():
     username = request.args.get('username')
-    return render_template("success.html", username=username)
+    return render_template("success.html", username=username, title='Welcome')
 
 
 app.run()

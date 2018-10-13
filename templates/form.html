@@ -4,9 +4,15 @@
     <title>User Sign Up</title>
     <style>
         label {display: block}
+        span {color: red}
     </style>
 </head>
 <body>
+    
+{% extends "base.html" %}
+
+{% block content %}
+
     <h1>Signup</h1>
     <form method="POST">
     <table>
@@ -49,5 +55,5 @@
     </table>
     <input type="submit"/>
 </form>
-</body>
-</html>
+
+{% endblock %}
