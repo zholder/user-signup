@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect, render_template
 import cgi
 import os
+import re
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -27,9 +28,9 @@ def password_match(password, verify_password):
         return True
 
 def email_check(email):
-    if email == '':
-        return True
-    elif '@' in email and '.' in email:
+    atcheck = re.search('[@]',email)
+    periodcheck = re.search('[.]',email)
+    if email == '' or (atcheck and periodcheck):
         return True
 
 @app.route("/", methods=['POST'])
