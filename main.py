@@ -11,7 +11,7 @@ def index():
     return render_template("form.html")
 
 def validate_length(validate_param):
-    if len(validate_param) > 2 and len(validate_param) <20:
+    if len(validate_param) > 2 and len(validate_param) < 20:
         return True
 
 def is_blank(validate_param):
@@ -23,14 +23,10 @@ def contains_space(validate_param):
         if char == ' ':
             return True
 
-def password_match(password, verify_password):
-    if password == verify_password:
-        return True
-
 def email_check(email):
     atcheck = re.search('[@]',email)
     periodcheck = re.search('[.]',email)
-    if email == '' or (atcheck and periodcheck):
+    if email == '' or (atcheck and periodcheck and not contains_space(email)):
         return True
 
 @app.route("/", methods=['POST'])
